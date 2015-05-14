@@ -31,13 +31,13 @@ public class UserLoggingImpl implements UserLogging {
 		LOG.info("afterAdvice :: "+joinPoint.toString());
 	}
 
-	@AfterReturning(pointcut="within(org.springframework.samples.springaop.service.*)", returning="result")
-	public void afterReturningAdvice(JoinPoint joinPoint, Object result) {
-		LOG.info("afterReturningAdvice ::" + result.toString());
-		if(result instanceof User){
-			User user = (User)result;
-			user.setName("afterReturningAdvice");
-			LOG.info("aroundAdvice before proceed :: "+user);
+	@AfterReturning(value="execution(* org.springframework.samples.springaop..*.getUserProfile(..))", returning="object")
+	public void afterReturningAdvice(JoinPoint joinPoint, Object object) {
+		LOG.info("afterReturningAdvice :: " + joinPoint.toString());
+		if(object instanceof User){
+			User userObj = (User)object;
+			userObj.setName("afterReturningAdvice");
+			LOG.info("afterReturningAdvice after proceed :: "+object);
 		}
 	}
 
@@ -53,7 +53,7 @@ public class UserLoggingImpl implements UserLogging {
 		}
 	}
 
-	@AfterThrowing(pointcut= "within(org.springframework.samples.springaop.service.UserServiceImpl)", throwing ="error")
+	@AfterThrowing(value= "execution(* org.springframework.samples.springaop..*.getUserProfileWithException(..))", throwing ="error")
 	public void AfterThrowingAdvice(JoinPoint joinPoint, Throwable error) {
 		LOG.info("There has been an exception: " + error.toString());
 	}

@@ -1,5 +1,8 @@
 package org.springframework.samples.springaop.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class User {
 
 	private int userId;

@@ -8,6 +8,9 @@ public class User {
 	private int userId;
 	private String name;
 
+	public User() {
+	}
+	
 	public User(int userId, String name) {
 		super();
 		this.userId = userId;

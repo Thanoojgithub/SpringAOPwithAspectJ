@@ -1,9 +1,11 @@
 package org.springframework.samples.springaop.vo;
 
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
 
-@Component
-public class User {
+
+public class User implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private int userId;
 	private String name;

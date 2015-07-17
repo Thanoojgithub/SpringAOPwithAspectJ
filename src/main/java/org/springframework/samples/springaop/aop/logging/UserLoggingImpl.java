@@ -32,14 +32,10 @@ public class UserLoggingImpl implements UserLogging {
 		LOG.info("afterAdvice :: " + joinPoint.toString());
 	}
 
-	@AfterReturning(pointcut = "execution(* org.springframework.samples.springaop.service.UserService.*(..))", returning = "user")
-	public void afterReturningAdvice(JoinPoint joinPoint, User user) {
+	@AfterReturning(pointcut = "execution(* org.springframework.samples.springaop.service.UserService.*(..))", returning = "retVal")
+	public void afterReturningAdvice(JoinPoint joinPoint, User retVal) {
 		LOG.info("afterReturningAdvice :: " + joinPoint.toString());
-		LOG.info("afterReturningAdvice after proceed");
-		Object[] args = joinPoint.getArgs();
-		for (Object object : args) {
-			System.out.println(object);
-		}
+		LOG.info("afterReturningAdvice after proceed :: " + retVal);
 	}
 
 	@Around(value = "execution(* org.springframework.samples.springaop.service.UserService.*(..))")

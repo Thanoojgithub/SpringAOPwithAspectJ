@@ -8,10 +8,10 @@ import org.springframework.samples.springaop.vo.User;
 public class App {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-beans.xml");
+		try(ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-beans.xml")){
 			UserService userService = (UserService) context.getBean("userService");
 			User userProfile = userService.getUserProfile(1,"sriram");
 			System.out.println(userProfile);
-			context.close();
+		}
 	}
 }

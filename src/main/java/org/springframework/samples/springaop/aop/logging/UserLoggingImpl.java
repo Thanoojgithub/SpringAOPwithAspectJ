@@ -1,8 +1,5 @@
 package org.springframework.samples.springaop.aop.logging;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -11,6 +8,8 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.samples.springaop.aop.exception.InValidUserException;
 import org.springframework.samples.springaop.vo.User;
 import org.springframework.stereotype.Component;
@@ -19,12 +18,11 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class UserLoggingImpl implements UserLogging {
 
-	private static final Logger LOG = Logger.getLogger(UserLoggingImpl.class
-			.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(UserLoggingImpl.class);
 
 	@Before(value = "execution(* org.springframework.samples.springaop.service.UserService.*(..))")
 	public void beforeAdvice(JoinPoint joinPoint) {
-		LOG.log(Level.INFO, "beforeAdvice :: " + joinPoint.toString());
+		LOG.info("beforeAdvice :: " + joinPoint.toString());
 	}
 
 	@After(value = "execution(* org.springframework.samples.springaop.service.UserService.*(..))")
@@ -39,14 +37,16 @@ public class UserLoggingImpl implements UserLogging {
 	}
 
 	@Around(value = "execution(* org.springframework.samples.springaop.service.UserService.*(..))")
-	public void aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
 		LOG.info("aroundAdvice before proceed");
+		User user = null;
 		Object proceed = joinPoint.proceed();
 		if (proceed instanceof User) {
-			User user = (User) proceed;
+			user = (User) proceed;
 			user.setName("aroundAdvice after proceed");
 			LOG.info("aroundAdvice after proceed :: " + user);
 		}
+		return user;
 	}
 
 	@AfterThrowing(pointcut = "execution(* org.springframework.samples.springaop.service.UserService.*(..))", throwing = "ex")

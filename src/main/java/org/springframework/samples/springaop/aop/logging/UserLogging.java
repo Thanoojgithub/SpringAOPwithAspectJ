@@ -13,7 +13,7 @@ public interface UserLogging {
 
 	public void afterReturningAdvice(JoinPoint joinPoint, User retVal);
 
-	public void aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable;
+	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable;
 
 	public void AfterThrowingAdvice(JoinPoint joinPoint, InValidUserException ex);
 
